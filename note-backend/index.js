@@ -20,7 +20,7 @@ app.use(cookieParser());
 // 🔥 CORS FIX
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.FRONTEND_URL || "https://noteapp-10.onrender.com",
+  process.env.FRONTEND_URL || "https://noteapp-11.onrender.com",
 ];
 
 app.use(
