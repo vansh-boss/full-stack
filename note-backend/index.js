@@ -19,25 +19,21 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.FRONTEND_URL
+  process.env.FRONTEND_URL || "https://noteapp-10.onrender.com",
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: allowedOrigins,
     credentials: true,
   })
 );
 
+app.options("*", cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 
-app.use(cors({ origin: allowedOrigins, credentials: true }));
-app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
 app.use("/auth", authRouter);
 
