@@ -1,0 +1,8 @@
+{
+    "tailwindcss-intellisense.trace.server": "messages",
+    "tailwindCSS.emmetCompletions": false,
+    "tailwindCSS.experimental.classRegex": [
+        true,
+    ],
+    "tailwindCSS.experimental.configFile": null
+}
