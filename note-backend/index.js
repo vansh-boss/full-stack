@@ -1,31 +1,33 @@
-const express = require("express");
-const path = require("path");
-const cors = require("cors");
-require("dotenv").config();
-import usersRouter from "./routers/users.js";
+import express from "express";
+import path from "path";
+import cors from "cors";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import authRouter from "./routers/authRoutes.js";
+import connectDB from "./config/db.js";
+import { fileURLToPath } from "url";
 
+dotenv.config();
+connectDB(); // 👈 VERY IMPORTANT
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173",
   "https://noteapp-6-mqwv.onrender.com",
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
-
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
+app.use("/auth", authRouter);
 
-app.use("/auth", usersRouter);
-
-// serve frontend
+// frontend
 const frontendPath = path.join(__dirname, "../notes-app/dist");
 app.use(express.static(frontendPath));
 app.get("*", (req, res) =>
