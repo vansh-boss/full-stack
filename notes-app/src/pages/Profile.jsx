@@ -14,21 +14,25 @@ import {
 const Profile = () => {
   const { user, setUser, logout } = useAuth();
 
-  const handleDpChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
 
-    const formData = new FormData();
-    formData.append("avatar", file);
+  const API = import.meta.env.VITE_API_URL;
 
-    const res = await axios.post(
-      "http://localhost:8120/user/upload-avatar",
-      formData,
-      { withCredentials: true }
-    );
 
-    setUser(res.data.user);
-  };
+const handleDpChange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  const res = await axios.post(
+    `${API}/user/upload-avatar`,
+    formData,
+    { withCredentials: true }
+  );
+
+  setUser(res.data.user);
+};
 
   return (
     <div className="max-w-md mx-auto mt-10 relative z-10">
@@ -40,14 +44,15 @@ const Profile = () => {
           p-1 shadow-lg">
 
           <div className="relative w-full h-full rounded-full bg-white group">
-            <img
-              src={
-                user?.activeAvatar
-                  ? `http://localhost:8120${user.activeAvatar}`
-                  : "/default-avatar.png"
-              }
-              className="w-full h-full rounded-full object-cover"
-            />
+           <img
+  src={
+    user?.activeAvatar
+      ? `${API.replace("/auth", "")}${user.activeAvatar}`
+      : "/default-avatar.png"
+  }
+  className="w-full h-full rounded-full object-cover"
+/>
+
 
             <label className="absolute inset-0 bg-black/40 rounded-full
               flex items-center justify-center

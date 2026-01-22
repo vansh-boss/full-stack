@@ -4,7 +4,6 @@ import path from "path";
 
 const uploadDir = "uploads";
 
-// 🔥 ensure folder exists
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }

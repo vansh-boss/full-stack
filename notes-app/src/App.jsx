@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+ import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -17,16 +17,8 @@ function App() {
 
   return (
     <>
-      {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-       className="fixed inset-0 w-full h-full object-cover -z-10"
-
-      >
-        <source src="public/videos/bg4.mp4" type="video/mp4" />
-      </video>
+      {/* Light Professional Background */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-50 via-white to-slate-100"></div>
 
       {user && <Navbar />}
 
@@ -49,7 +41,6 @@ function App() {
         )}
       </Routes>
 
-      {/* FOOTER – now on every page */}
       {user && <Footer />}
     </>
   );

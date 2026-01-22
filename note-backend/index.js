@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // 🔥 CORS FIX
@@ -30,10 +31,17 @@ app.use(
   })
 );
 
+app.use(cors({
+  origin: ["https://noteapp-11.onrender.com", "http://localhost:5173"],
+  credentials: true,
+}));
+
 // routes
 app.use("/auth", authRouter);
 
+
 // frontend serve
+app.use("/uploads", express.static("uploads"));
 const frontendPath = path.join(__dirname, "../notes-app/dist");
 app.use(express.static(frontendPath));
 

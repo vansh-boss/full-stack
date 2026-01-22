@@ -2,31 +2,21 @@ import User from "../models/User.js";
 
 export const uploadAvatar = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-    const user = await User.findById(req.user._id);
+    const userId = req.user.id; // from auth middleware
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    const avatarPath = `/uploads/${req.file.filename}`;
 
-    const imagePath = `/uploads/${req.file.filename}`;
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { activeAvatar: avatarPath },
+      { new: true }
+    ).select("-password");
 
-    user.avatars.push({
-      imageId: req.file.filename,
-      path: imagePath,
-      uploadedAt: new Date(),
-    });
-
-    user.activeAvatar = imagePath;
-
-    await user.save();
-
-    res.json({ success: true, user });
+    res.json({ user });
   } catch (err) {
-    console.error("UPLOAD ERROR:", err);
+    console.log(err);
     res.status(500).json({ message: "Upload failed" });
   }
 };
