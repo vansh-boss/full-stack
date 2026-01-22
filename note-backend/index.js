@@ -18,31 +18,33 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// 🔥 CORS FIX
+// 🔥 CORS (single, correct)
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.FRONTEND_URL || "https://noteapp-11.onrender.com",
+  process.env.FRONTEND_URL,
 ];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
 
-app.use(cors({
-  origin: ["https://noteapp-11.onrender.com", "http://localhost:5173"],
-  credentials: true,
-}));
-
 // routes
 app.use("/auth", authRouter);
 
-
-// frontend serve
+// static uploads
 app.use("/uploads", express.static("uploads"));
-const frontendPath = path.join(__dirname, "../notes-app/dist");
+
+// serve frontend build
+const frontendPath = path.join(__dirname, "../frontend/dist");
 app.use(express.static(frontendPath));
 
 app.get("*", (req, res) =>
