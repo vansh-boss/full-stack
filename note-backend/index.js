@@ -44,7 +44,7 @@ app.use("/auth", authRouter);
 app.use("/uploads", express.static("uploads"));
 
 // serve frontend build
-const frontendPath = path.join(__dirname, "../frontend/dist");
+const frontendPath = path.join(__dirname, "../notes-app/dist");
 app.use(express.static(frontendPath));
 
 app.get("*", (req, res) =>

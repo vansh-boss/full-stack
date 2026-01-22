@@ -18,7 +18,9 @@ function App() {
   return (
     <>
       {/* Light Professional Background */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-50 via-white to-slate-100"></div>
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100"></div>
+
+
 
       {user && <Navbar />}
 
