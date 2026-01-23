@@ -19,26 +19,29 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // 🔥 CORS (single, correct)
-const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.FRONTEND_URL,
-];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
+      const allowed = [
+        "http://localhost:5173",
+        process.env.FRONTEND_URL,
+      ];
+
+      // server-to-server, postman, render internal
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
+      if (allowed.includes(origin)) {
         return callback(null, true);
-      } else {
-        console.log("Blocked by CORS:", origin);
-        return callback(null, false); // ❌ error throw mat karo
       }
+
+      console.log("Blocked by CORS:", origin);
+      return callback(null, true); // ⚠️ block mat karo, bas log karo
     },
     credentials: true,
   })
 );
+
 
 
 // routes

@@ -62,6 +62,7 @@ export const login = async (req, res) => {
     httpOnly: true,
     sameSite: "none", // 👈 for render
     secure: true,    // 👈 must for https
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
   res.json({ user });
