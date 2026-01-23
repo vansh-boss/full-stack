@@ -27,15 +27,19 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        console.log("Blocked by CORS:", origin);
+        return callback(null, false); // ❌ error throw mat karo
       }
     },
     credentials: true,
   })
 );
+
 
 // routes
 app.use("/auth", authRouter);
